@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="ListaAlunos">
+<head>
+<meta charset "utf-8"/>
+<link rel="stylesheet" type="text/css" href="bootstrap.css">
+<script src= "angular.js"></script>
+<script>
+	angular.module("ListaAlunos", []);
+  	angular.module("ListaAlunos").controller("listactrlr", function($scope){
+  	$scope.app="Alunos Web 2018";
+	$scope.alunos= [
+		{nome : "julio", matricula : "20192", Email : ""},
+        {nome : "jessyla", matricula : "20292", Email : ""},
+        {nome : "jose", matricula : "2442", Email : ""}
+            ];
+    $scope.Adicionar= function(aluno){
+        $scope.alunos.push(angular.copy(aluno));
+        delete $scope.aluno;
+       };
+       $scope.sexos=[
+        {nome: "Feminino"},
+        {nome: "Masculino"},
+        {nome: "Outros"}
+       ];
+    $scope.escolhido="selecionado";
+    $scope.Remover= function(alunos){
+        $scope.alunos = alunos.filter(function(aluno){
+            if(!aluno.selecionado) return aluno;
+        });
+
+    };
+  });
+
+</script>
+<style>
+	.jumbotron{width:800px;
+		text-align:center;
+		margin-right:auto;
+		margin-left:auto;
+		font-family: roboto;
+       
+}
+    .table{
+        margin-top: 40px;
+        background-color:white;
+    }
+    .form-control{
+        margin-top: 10px;
+    }
+    .btn{
+        margin-top:30px;
+    }
+    .selecionado{
+        background-color:rgb(231, 78, 78); 
+        font-family: roboto;
+        font-weight: bold;
+        
+    }
+    
+</style>
+</head>
+<body ng-controller="listactrlr">
+  <div class= "jumbotron">
+   <h3> {{app}} </h3>
+  
+  <table class="table">
+      <tr>
+          <th></th>
+          <th>Nome</th>
+          <th>Matricula</th>
+          <th>Sexo</th>
+          <th>Email</th> 
+        </tr>
+        <tr ng-class="{selecionado: aluno.selecionado}" ng-repeat= "aluno in alunos">
+            <td><input type="checkbox" ng-model="aluno.selecionado"/></td>
+            <td>{{aluno.nome}}</td>
+            <td>{{aluno.matricula}}</td>
+            <td>{{aluno.sexo.nome}}</td>
+            <td>{{aluno.Email}}</td>
+            
+        </tr>
+    </table>
+    <input class="form-control" type="text" ng-model="aluno.nome" placeholder="Nome"/>
+    <input class = "form-control" type="text" ng-model="aluno.matricula" placeholder="Matricula"/>
+    <select class="form-control" ng-model="aluno.sexo" ng-options= "sexo.nome for sexo in sexos" >
+        <option value="">selecione o sexo</option>
+    </select>  
+    
+    
+    <input class = "form-control" type="email" ng-model="aluno.Email" placeholder="E-mail"/>
+        
+    <button class="btn btn-primary btn-block" ng-click="Adicionar(aluno)" ng-disabled="!aluno.nome || !aluno.matricula">Adicionar Aluno</button>
+    <button class="btn btn-danger btn-block" ng-click="Remover(alunos)" >Remover Aluno</button>
+  </div>
+</body>
+</html>
