@@ -27,10 +27,8 @@
         $scope.alunos = alunos.filter(function(aluno){
             if(!aluno.selecionado) return aluno;
         });
-
     };
   });
-
 </script>
 <style>
 	.jumbotron{width:800px;
@@ -82,8 +80,8 @@
     </table>
     <input class="form-control" type="text" ng-model="aluno.nome" placeholder="Nome"/>
     <input class = "form-control" type="text" ng-model="aluno.matricula" placeholder="Matricula"/>
-    <select class="form-control" ng-model="aluno.sexo" ng-options= "sexo.nome for sexo in sexos" >
-        <option value="">selecione o sexo</option>
+    <select class="form-control" ng-model="aluno.sexo" ng-init="aluno.sexo = sexos[1]"ng-options= "sexo.nome for sexo in sexos" >
+        <option value="">Selecionar Sexo</option>
     </select>  
     
     
