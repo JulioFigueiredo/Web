@@ -8,6 +8,11 @@
 	angular.module("ListaAlunos", []);
   	angular.module("ListaAlunos").controller("listactrlr", function($scope){
   	$scope.app="Alunos Web 2018";
+      $scope.sexos=[
+        {nome: "Feminino"},
+        {nome: "Masculino"},
+        {nome: "Outros"}
+       ];
 	$scope.alunos= [
 		{nome : "julio", matricula : "20192", Email : ""},
         {nome : "jessyla", matricula : "20292", Email : ""},
@@ -15,13 +20,12 @@
             ];
     $scope.Adicionar= function(aluno){
         $scope.alunos.push(angular.copy(aluno));
-        delete $scope.aluno;
+        $scope.aluno.sexo = $scope.sexos[1];
+        delete $scope.aluno.nome;
+        delete $scope.aluno.Email;
+        delete $scope.aluno.matricula;
        };
-       $scope.sexos=[
-        {nome: "Feminino"},
-        {nome: "Masculino"},
-        {nome: "Outros"}
-       ];
+       
     $scope.escolhido="selecionado";
     $scope.Remover= function(alunos){
         $scope.alunos = alunos.filter(function(aluno){
@@ -80,8 +84,8 @@
     </table>
     <input class="form-control" type="text" ng-model="aluno.nome" placeholder="Nome"/>
     <input class = "form-control" type="text" ng-model="aluno.matricula" placeholder="Matricula"/>
-    <select class="form-control" ng-model="aluno.sexo" ng-init="aluno.sexo = sexos[1]"ng-options= "sexo.nome for sexo in sexos" >
-        <option value="">Selecionar Sexo</option>
+    <select class="form-control" ng-model="aluno.sexo" ng-init="aluno.sexo = sexos[1]" ng-options="sexo.nome for sexo in sexos" >
+        
     </select>  
     
     
