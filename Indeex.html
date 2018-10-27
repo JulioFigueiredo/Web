@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html ng-app="ListaAlunos">
 <head>
-<meta charset "utf-8"/>
+<meta charset= "UTF-8"/>
 <link rel="stylesheet" type="text/css" href="bootstrap.css">
 <script src= "angular.js"></script>
+<script src= "angular-messages.js"></script>
 <script>
-	angular.module("ListaAlunos", []);
+	angular.module("ListaAlunos", ["ngMessages"]);
   	angular.module("ListaAlunos").controller("listactrlr", function($scope){
   	$scope.app="Alunos Web 2018";
       $scope.sexos=[
@@ -24,6 +25,7 @@
         delete $scope.aluno.nome;
         delete $scope.aluno.Email;
         delete $scope.aluno.matricula;
+        $scope.alunoForm.$setPristine();
        };
        
     $scope.escolhido="selecionado";
@@ -42,6 +44,12 @@
 		font-family: roboto;
        
 }
+   
+    .alert{
+        margin-top: 20px;
+        font-weight: bold; 
+        color:rgb(231, 78, 78);
+    }
     .table{
         margin-top: 40px;
         background-color:white;
@@ -82,16 +90,37 @@
             
         </tr>
     </table>
-    <input class="form-control" type="text" ng-model="aluno.nome" placeholder="Nome"/>
-    <input class = "form-control" type="text" ng-model="aluno.matricula" placeholder="Matricula"/>
-    <select class="form-control" ng-model="aluno.sexo" ng-init="aluno.sexo = sexos[1]" ng-options="sexo.nome for sexo in sexos" >
-        
-    </select>  
-    
-    
-    <input class = "form-control" type="email" ng-model="aluno.Email" placeholder="E-mail"/>
-        
-    <button class="btn btn-primary btn-block" ng-click="Adicionar(aluno)" ng-disabled="!aluno.nome || !aluno.matricula">Adicionar Aluno</button>
+    <form name="alunoForm">
+    <input class="form-control" name="alnome" type="text" ng-model="aluno.nome" placeholder="Nome" ng-required="true" ng-minlength="15"/>
+    <input class = "form-control" name="almatricula"type="text" ng-model="aluno.matricula" placeholder="Matricula" ng-required="true" ng-pattern="/\d{10,11}/"/>
+    <select class="form-control" ng-model="aluno.sexo" ng-init="aluno.sexo = sexos[1]" ng-options="sexo.nome for sexo in sexos" > </select>  
+    <input class = "form-control" name="alemail"type="email" ng-model="aluno.Email" placeholder="E-mail"ng-required="true" ng-pattern="/\@ifpb.mail/"/>
+    </form>
+<div ng-messages="alunoForm.alnome.$error"  ng-show="alunoForm.alnome.$dirty">
+    <div ng-message="required " class="alert alert-danger">
+        O campo Nome deve ser preenchido.
+    </div >
+    <div ng-message="minlength" class="alert alert-danger">
+            O nome do novo aluno está muito pequeno.
+    </div>
+<div ng-messages="alunoForm.almatricula.$error" ng-show="alunoForm.almatricula.$dirty">   
+    <div ng-message="required " class="alert alert-danger">
+        O campo Matrícula deve ser preenchido.
+    </div>
+    <div ng-message="pattern" class="alert alert-danger">
+           A Matrícula do novo aluno está inválida.
+    </div>
+</div>    
+<div ng-messages="alunoForm.alemail.$error" ng-show="alunoForm.alemail.$dirty">
+    <div ng-message="required " class="alert alert-danger">
+        O campo E-mail deve ser preenchido.
+    </div>
+    <div ng-message="pattern" class="alert alert-danger">
+            E-mail inválido, deve ser do tipo "exemplo@ifpb.mail" .
+    </div>
+</div>   
+</div>  
+    <button class="btn btn-primary btn-block" ng-click="Adicionar(aluno)" ng-disabled="alunoForm.$invalid">Adicionar Aluno</button>
     <button class="btn btn-danger btn-block" ng-click="Remover(alunos)" >Remover Aluno</button>
   </div>
 </body>
