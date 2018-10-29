@@ -3,12 +3,13 @@
 <head>
 <meta charset= "UTF-8"/>
 <link rel="stylesheet" type="text/css" href="bootstrap.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 <script src= "angular.js"></script>
 <script src= "angular-messages.js"></script>
 <script>
 	angular.module("ListaAlunos", ["ngMessages"]);
   	angular.module("ListaAlunos").controller("listactrlr", function($scope){
-  	$scope.app="Alunos Web 2018";
+  	$scope.app="ALUNOS WEB 2018";
       $scope.sexos=[
         {nome: "Feminino"},
         {nome: "Masculino"},
@@ -44,7 +45,17 @@
 		font-family: roboto;
        
 }
-   
+    h3{
+        font-family: roboto;
+        font-size: 40px;
+        animation-duration: 4s;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+        background-color: rgb(228, 229, 230);
+        border-radius: 5%;
+        width:500px;
+        margin: auto;
+    }
     .alert{
         margin-top: 20px;
         font-weight: bold; 
@@ -70,8 +81,8 @@
 </style>
 </head>
 <body ng-controller="listactrlr">
-  <div class= "jumbotron">
-   <h3> {{app}} </h3>
+  <div class= "jumbotron animated fadeInDown">
+   <h3 class="animated rollIn delay"> {{app}} </h3>
   
   <table class="table">
       <tr>
