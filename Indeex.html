@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="bootstrap.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 <script src= "angular.js"></script>
+<script src= "angular-locale_pt-br.js"></script>
 <script src= "angular-messages.js"></script>
 <script>
 	angular.module("ListaAlunos", ["ngMessages"]);
@@ -16,9 +17,9 @@
         {nome: "Outros"}
        ];
 	$scope.alunos= [
-		{nome : "julio", matricula : "20192", Email : ""},
-        {nome : "jessyla", matricula : "20292", Email : ""},
-        {nome : "jose", matricula : "2442", Email : ""}
+		{nome : "julio", matricula : "20192", data: new Date(), Email : "", preco:"200"},
+        {nome : "jessyla", matricula : "20292",data: new Date(), Email : "", preco:"100"},
+        {nome : "jose", matricula : "2442", data: new Date(), Email : "", preco:"300"}
             ];
     $scope.Adicionar= function(aluno){
         $scope.alunos.push(angular.copy(aluno));
@@ -34,6 +35,11 @@
         $scope.alunos = alunos.filter(function(aluno){
             if(!aluno.selecionado) return aluno;
         });
+    };
+    $scope.Ordenar= function(campo){
+        $scope.Ordem=campo;
+        $scope.Direcao = !$scope.Direcao;
+        
     };
   });
 </script>
@@ -75,29 +81,36 @@
         background-color:rgb(231, 78, 78); 
         font-family: roboto;
         font-weight: bold;
-        
     }
-    
+    a{
+        color:rgb(231, 78, 78); 
+    }
+   
 </style>
 </head>
 <body ng-controller="listactrlr">
   <div class= "jumbotron animated fadeInDown">
    <h3 class="animated rollIn delay"> {{app}} </h3>
+   <input type="text" ng-model="Busca" placeholder="Pesquise" class="form-control">
   
   <table class="table">
       <tr>
           <th></th>
-          <th>Nome</th>
-          <th>Matricula</th>
-          <th>Sexo</th>
-          <th>Email</th> 
+          <th><a href="" ng-click="Ordenar('nome')">Nome</a></th>
+          <th><a href="" ng-click="Ordenar('matricula')">Matricula</a></th>
+          <th><a href="" ng-click="Ordenar('sexo')">Sexo</a></th>
+          <th><a href="" ng-click="Ordenar('email')">Email</a></th> 
+          <th><a href="" ng-click="Ordenar('data')">Data</a></th>
+          <th><a href="" ng-click="Ordenar('preco')">Preço-Matrícula</a></th>
         </tr>
-        <tr ng-class="{selecionado: aluno.selecionado}" ng-repeat= "aluno in alunos">
+        <tr ng-class="{selecionado: aluno.selecionado}" ng-repeat= "aluno in alunos | filter:{nome :Busca}|orderBy:Ordem:Direcao ">
             <td><input type="checkbox" ng-model="aluno.selecionado"/></td>
             <td>{{aluno.nome}}</td>
             <td>{{aluno.matricula}}</td>
             <td>{{aluno.sexo.nome}}</td>
             <td>{{aluno.Email}}</td>
+            <td>{{aluno.data | date:'dd/MM/yyyy HH:mm'}}</td>
+            <td>{{aluno.preco | currency}}</td>
             
         </tr>
     </table>
@@ -106,7 +119,9 @@
     <input class = "form-control" name="almatricula"type="text" ng-model="aluno.matricula" placeholder="Matricula" ng-required="true" ng-pattern="/\d{10,11}/"/>
     <select class="form-control" ng-model="aluno.sexo" ng-init="aluno.sexo = sexos[1]" ng-options="sexo.nome for sexo in sexos" > </select>  
     <input class = "form-control" name="alemail"type="email" ng-model="aluno.Email" placeholder="E-mail"ng-required="true" ng-pattern="/\@ifpb.mail/"/>
-    </form>
+    <input class="form-control" name="aldata" type="Date" ng-model="aluno.data" placeholder="Data"/>  
+    <input class="form-control" type="text" ng-model="aluno.preco" placeholder="Preço Matrícula" />  
+</form>
 <div ng-messages="alunoForm.alnome.$error"  ng-show="alunoForm.alnome.$dirty">
     <div ng-message="required " class="alert alert-danger">
         O campo Nome deve ser preenchido.
